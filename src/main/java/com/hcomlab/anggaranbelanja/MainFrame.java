@@ -6,6 +6,7 @@
 package com.hcomlab.anggaranbelanja;
 
 import java.sql.Connection;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -13,18 +14,13 @@ import java.sql.Connection;
  */
 public class MainFrame extends javax.swing.JFrame {
     
-    private Connection db;
-    
-    private void initDatabase(){
-        
-    }
-    
+    int sheetTo=0;
+    Connection db;
 
     /**
-     * Creates new form MainFrame
+     * Creates new form NewJFrame
      */
     public MainFrame() {
-        initDatabase();
         initComponents();
     }
 
@@ -37,30 +33,114 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        tabInduk = new javax.swing.JTabbedPane();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        menuTambah = new javax.swing.JMenuItem();
+        menuSembunyikan = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        menuKeluar = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        menuSimpan = new javax.swing.JMenuItem();
+        menuHapus = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent evt) {
-                formWindowClosing(evt);
+
+        tabInduk.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+
+        jMenu1.setText("File");
+
+        menuTambah.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuTambah.setText("Tambah");
+        menuTambah.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuTambah(evt);
             }
         });
+        jMenu1.add(menuTambah);
+
+        menuSembunyikan.setText("Sembunyikan");
+        menuSembunyikan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSembunyikanActionPerformed(evt);
+            }
+        });
+        jMenu1.add(menuSembunyikan);
+        jMenu1.add(jSeparator1);
+
+        menuKeluar.setText("Keluar");
+        jMenu1.add(menuKeluar);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+
+        menuSimpan.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        menuSimpan.setText("Simpan");
+        menuSimpan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuSimpanActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuSimpan);
+
+        menuHapus.setText("Hapus");
+        menuHapus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuHapusActionPerformed(evt);
+            }
+        });
+        jMenu2.add(menuHapus);
+
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabInduk, javax.swing.GroupLayout.DEFAULT_SIZE, 605, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(tabInduk, javax.swing.GroupLayout.DEFAULT_SIZE, 443, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        
-    }//GEN-LAST:event_formWindowClosing
+    private void menuTambah(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuTambah
+        Dok tab = new Dok();
+        tab.setConnection(db);
+        sheetTo++;
+        tabInduk.addTab("Sheet "+Integer.toString(sheetTo), tab);
+    }//GEN-LAST:event_menuTambah
+
+    private void menuSembunyikanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSembunyikanActionPerformed
+        tabInduk.removeTabAt(tabInduk.getSelectedIndex());
+    }//GEN-LAST:event_menuSembunyikanActionPerformed
+
+    private Dok form(){
+        return (Dok)tabInduk.getComponentAt(tabInduk.getSelectedIndex());
+    }
+    
+    private void menuSimpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuSimpanActionPerformed
+        form().simpan();
+    }//GEN-LAST:event_menuSimpanActionPerformed
+
+    private void menuHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuHapusActionPerformed
+        int hapus=JOptionPane.showConfirmDialog(this, "Hapus data ini?", "Hapus", JOptionPane.YES_NO_OPTION);
+        if(JOptionPane.YES_OPTION==hapus){
+            form().hapus();
+        }
+    }//GEN-LAST:event_menuHapusActionPerformed
 
     /**
      * @param args the command line arguments
@@ -88,6 +168,9 @@ public class MainFrame extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(MainFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -98,5 +181,15 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JMenuItem menuHapus;
+    private javax.swing.JMenuItem menuKeluar;
+    private javax.swing.JMenuItem menuSembunyikan;
+    private javax.swing.JMenuItem menuSimpan;
+    private javax.swing.JMenuItem menuTambah;
+    private javax.swing.JTabbedPane tabInduk;
     // End of variables declaration//GEN-END:variables
 }
